@@ -1,0 +1,19 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: hms-http-route
+  namespace: hms-dev
+  labels:
+    app: hms-http-route
+spec:
+  parentRefs:
+  - name: hms-gateway-dev
+    namespace: hms-dev
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /bed-monitor
+    backendRefs:
+    - name: hms-bed-monitor-svc-dev
+      port: 80

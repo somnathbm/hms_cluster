@@ -1,0 +1,43 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: hms-app-cluster
+  region: us-east-1
+  version: "1.30"
+  tags:
+    part_of: hms
+
+iam:
+  withOIDC: true
+  # serviceRoleARN: arn:aws:iam::aws:policy/aws-service-role/AmazonEKSServiceRolePolicy
+  serviceAccounts:
+  - metadata:
+      name: hms-pods-sa-dev
+      namespace: hms-dev
+    attachRoleARN: arn:aws:iam::691685274845:role/HMSPodIdentityRole
+  podIdentityAssociations:
+  - namespace: hms-dev
+    serviceAccountName: hms-pods-sa-dev
+    roleARN: arn:aws:iam::691685274845:role/HMSPodIdentityRole
+    # createServiceAccount: true
+
+addons:
+- name: eks-pod-identity-agent
+
+managedNodeGroups:
+- name: ng-1
+  amiFamily: AmazonLinux2023
+  instanceType: t3.small
+  instancePrefix: hms-
+  desiredCapacity: 2
+  minSize: 2
+  maxSize: 3
+  privateNetworking: true
+  # taint nodes so that application pods are
+  # not scheduled/executed until Cilium is deployed.
+  # Alternatively, see the note below.
+  taints:
+   - key: "node.cilium.io/agent-not-ready"
+     value: "true"
+     effect: "NoExecute"

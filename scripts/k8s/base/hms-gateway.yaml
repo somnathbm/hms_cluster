@@ -1,0 +1,16 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: hms-gateway-dev
+  namespace: hms-dev
+  labels:
+    app: hms-cluster-gateway
+spec:
+  gatewayClassName: cilium
+  listeners:
+  - protocol: HTTP
+    port: 80
+    name: web-gw-listener
+    allowedRoutes:
+      namespaces:
+        from: Same
