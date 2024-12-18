@@ -6,11 +6,8 @@ metadata:
   labels:
     app: hms-cluster-gateway
 spec:
-  gatewayClassName: cilium
+  gatewayClassName: amazon-vpc-lattice
   listeners:
   - protocol: HTTP
     port: 80
     name: web-gw-listener
-    allowedRoutes:
-      namespaces:
-        from: Same

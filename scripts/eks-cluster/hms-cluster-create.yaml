@@ -16,14 +16,21 @@ iam:
       name: hms-pods-sa-dev
       namespace: hms-dev
     attachRoleARN: arn:aws:iam::691685274845:role/HMSPodIdentityRole
+  - metadata:
+      name: gateway-api-controller
+      namespace: aws-application-networking-system
+    attachRoleARN: arn:aws:iam::691685274845:role/VPCLatticeControllerIAMRole
   podIdentityAssociations:
   - namespace: hms-dev
     serviceAccountName: hms-pods-sa-dev
     roleARN: arn:aws:iam::691685274845:role/HMSPodIdentityRole
-    # createServiceAccount: true
+  - namespace: aws-application-networking-system
+    serviceAccountName: gateway-api-controller
+    roleARN: arn:aws:iam::691685274845:role/VPCLatticeControllerIAMRole
 
 addons:
 - name: eks-pod-identity-agent
+- name: vpc-cni
 
 managedNodeGroups:
 - name: ng-1
@@ -33,11 +40,11 @@ managedNodeGroups:
   desiredCapacity: 2
   minSize: 2
   maxSize: 3
-  privateNetworking: true
+  # privateNetworking: true
   # taint nodes so that application pods are
   # not scheduled/executed until Cilium is deployed.
   # Alternatively, see the note below.
-  taints:
-   - key: "node.cilium.io/agent-not-ready"
-     value: "true"
-     effect: "NoExecute"
+  # taints:
+  #  - key: "node.cilium.io/agent-not-ready"
+  #    value: "true"
+  #    effect: "NoExecute"
