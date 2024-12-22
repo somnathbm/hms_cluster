@@ -1,4 +1,0 @@
-resources:
-- ../base
-nameSuffix: -dev
-namespace: hms-dev

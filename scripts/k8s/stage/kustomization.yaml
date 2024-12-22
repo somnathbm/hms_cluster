@@ -1,4 +1,0 @@
-resources:
-- ../base
-nameSuffix: -stage
-namespace: hms-stage
