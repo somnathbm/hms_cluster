@@ -1,10 +1,10 @@
 apiVersion: opentelemetry.io/v1beta1
 kind: OpenTelemetryCollector
 metadata:
-  name: hms-otelcol-sidecar
+  name: hms-otelcol
   namespace: hms-dev
 spec:
-  mode: sidecar
+  mode: deployment
   config:
     receivers:
       otlp:
@@ -13,9 +13,6 @@ spec:
             endpoint: 0.0.0.0:4317
           http:
             endpoint: 0.0.0.0:4318
-      jaeger:
-        protocols:
-          thrift_compact: {}
     processors:
       memory_limiter:
         check_interval: 1s
@@ -26,10 +23,12 @@ spec:
         timeout: 10s
         
     exporters:
-      debug: {}
+      otlphttp:
+        endpoint: http://grafana-k8s-monitoring-alloy.grafana.svc.cluster.local:4318
 
     service:
       pipelines:
         traces:
-          receivers: [jaeger]
-          exporters: [debug]
+          receivers: [otlp]
+          processors: [memory_limiter, batch]
+          exporters: [otlphttp]

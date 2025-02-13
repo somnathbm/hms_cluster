@@ -12,22 +12,22 @@ spec:
     name: hms-gateway-dev
     namespace: hms-dev
   rules:
-  - matches:
-    - path:
-        type: PathPrefix
-        value: /bm
-    backendRefs:
-    - name: hms-bed-monitor-svc-dev
-      kind: Service
-      port: 80
-  - matches:
-    - path:
-        type: PathPrefix
-        value: /pm
-    backendRefs:
-    - name: hms-patient-mgmt-svc-dev
-      kind: Service
-      port: 80
+  # - matches:
+  #   - path:
+  #       type: PathPrefix
+  #       value: /bm
+  #   backendRefs:
+  #   - name: hms-bed-monitor-svc-dev
+  #     kind: Service
+  #     port: 80
+  # - matches:
+  #   - path:
+  #       type: PathPrefix
+  #       value: /pm
+  #   backendRefs:
+  #   - name: hms-patient-mgmt-svc-dev
+  #     kind: Service
+  #     port: 80
   - matches:
     - path:
         type: PathPrefix
