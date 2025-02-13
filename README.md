@@ -15,6 +15,13 @@ The cluster consists of 7 services:
 - opd svc
 - doctor svc
 
+## Basic service map (on Cilium)
+The 3 main services are laid out like this:
+
+![HMS-Service-Map](img/hms_cilium_service_map.png)
+
+## Service diagram on AWS
+
 ![HMS-cluster-only](img/hms-eks-cluster-only.png)
 
 The services are meshed (for east-west traffic).
@@ -23,4 +30,4 @@ And the traffic is routed to the VPC via Route53.
 
 ## GitOps
 
-GitOps is managed via ArgoRollouts and ArgoCD.
+GitOps is managed via Argo Rollouts and ArgoCD with Kargo for easier multi-stage promotion.
